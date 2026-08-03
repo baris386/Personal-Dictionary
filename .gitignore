@@ -1,0 +1,32 @@
+# Environment variables (CRITICAL: Do not commit Turso credentials or secrets)
+.env
+.env.local
+.env.production
+
+# Node.js dependencies & package locks
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local JSON data store & SQLite databases
+data_store.json
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs & Temporary files
+logs
+*.log
+tmp/
+temp/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE & Editor configurations
+.vscode/
+.idea/
+*.swp
+*.swo

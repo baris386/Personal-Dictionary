@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal English Vocabulary Database</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232d3748'><path d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/><path d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/><path fill='%235A9E75' d='M12 2v10l2.5-1.5L17 12V2z'/></svg>">
+  
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="background-globes">
+    <div class="globe globe-1"></div>
+    <div class="globe globe-2"></div>
+    <div class="globe globe-3"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Header / Navbar -->
+    <header class="app-header glass-card">
+      <div class="logo-area">
+        <div class="logo-badge">
+          <svg class="logo-svg" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 2v9l2.5-1.5L17 11V2h-5z" fill="#5A9E75"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h1>Personal Dictionary</h1>
+          <p>English Vocabulary & Synonym Database</p>
+        </div>
+      </div>
+
+      <nav class="nav-tabs">
+        <button class="nav-btn active" data-tab="search-tab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          Search & Explore
+        </button>
+        <button class="nav-btn" data-tab="add-tab" id="add-tab-nav-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span id="form-tab-label">Add Word / Idiom</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- SEARCH & EXPLORE TAB -->
+      <section id="search-tab" class="tab-pane active">
+        <div class="search-hero glass-card">
+          <div class="search-input-wrapper">
+            <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            <input type="text" id="search-input" placeholder="Search any word, definition, translation, or synonym..." autocomplete="off">
+            <button id="clear-search" class="clear-btn hidden">&times;</button>
+          </div>
+
+          <div class="filter-pills-bar">
+            <span class="filter-label">Part of Speech:</span>
+            <button class="filter-pill active" data-pos="all">All</button>
+            <button class="filter-pill" data-pos="Idiom">Idiom</button>
+            <button class="filter-pill" data-pos="Phrasal Verb">Phrasal Verb</button>
+            <button class="filter-pill" data-pos="Slang">Slang</button>
+            <button class="filter-pill" data-pos="Adjective">Adjective</button>
+            <button class="filter-pill" data-pos="Noun">Noun</button>
+            <button class="filter-pill" data-pos="Verb">Verb</button>
+          </div>
+        </div>
+
+        <!-- Results Counter -->
+        <div class="results-header">
+          <span id="results-count">Loading entries...</span>
+        </div>
+
+        <!-- Entries Grid -->
+        <div id="entries-grid" class="entries-grid">
+          <!-- Dynamically populated cards -->
+        </div>
+      </section>
+
+      <!-- ADD WORD TAB -->
+      <section id="add-tab" class="tab-pane">
+        <div class="add-container-single">
+          <form id="add-entry-form" class="glass-card form-card">
+            <div class="form-header">
+              <h2 id="form-title">Add New Entry</h2>
+              <p id="form-subtitle">Add a new word, idiom, or phrase to your personal dictionary.</p>
+            </div>
+
+            <input type="hidden" id="entry-id-input" value="">
+
+            <div class="form-row">
+              <div class="form-group flex-2">
+                <label for="word-input">Word / Phrase / Idiom <span class="req">*</span></label>
+                <input type="text" id="word-input" placeholder="e.g. Angry, Break a leg, Furious" required>
+              </div>
+
+              <div class="form-group flex-1">
+                <label for="pos-select">Part of Speech <span class="req">*</span></label>
+                <select id="pos-select" required>
+                  <option value="Idiom">Idiom</option>
+                  <option value="Phrasal Verb">Phrasal Verb</option>
+                  <option value="Slang">Slang</option>
+                  <option value="Adjective">Adjective</option>
+                  <option value="Noun">Noun</option>
+                  <option value="Verb">Verb</option>
+                  <option value="Expression">Expression</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="az-meaning-input">Translation / Native Meaning <span class="req">*</span></label>
+              <input type="text" id="az-meaning-input" placeholder="e.g. Translation in your native language" required>
+            </div>
+
+            <div class="form-group">
+              <label for="definition-input">English Definition <span class="opt">(Optional)</span></label>
+              <textarea id="definition-input" rows="2" placeholder="e.g. Extremely angry or full of fury (Optional)"></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group flex-1" style="position: relative;">
+                <label>Synonyms (Select existing words or type & hit Enter)</label>
+                <div class="tag-input-container" id="synonyms-tag-box">
+                  <input type="text" id="synonym-tag-input" placeholder="Type or select synonym..." autocomplete="off">
+                </div>
+                <div id="synonym-suggestions" class="suggestions-dropdown hidden"></div>
+              </div>
+
+              <div class="form-group flex-1">
+                <label>Antonyms (Type & hit Enter)</label>
+                <div class="tag-input-container" id="antonyms-tag-box">
+                  <input type="text" id="antonym-tag-input" placeholder="Type antonym & hit Enter">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="notes-input">Notes & Nuances (Usage warnings, sitcom scenes, context)</label>
+              <textarea id="notes-input" rows="3" placeholder="> e.g. Stronger than 'angry'. Commonly used when describing intense rage."></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" id="cancel-edit-btn" class="secondary-btn hidden">Cancel Edit</button>
+              <button type="button" id="fill-preset-btn" class="secondary-btn">⚡ Fill Sample Entry</button>
+              <button type="submit" id="submit-btn" class="primary-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span id="submit-btn-label">Save Entry</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- EDIT ENTRY POPUP MODAL -->
+    <div id="edit-modal" class="modal-overlay hidden">
+      <div class="modal-card glass-card modal-large">
+        <div class="modal-header">
+          <h3 id="edit-modal-title">Edit Dictionary Entry</h3>
+          <button id="close-edit-modal-btn" class="close-modal-btn">&times;</button>
+        </div>
+
+        <form id="modal-edit-form" class="form-card modal-form">
+          <input type="hidden" id="modal-entry-id" value="">
+
+          <div class="form-row">
+            <div class="form-group flex-2">
+              <label for="modal-word-input">Word / Phrase / Idiom <span class="req">*</span></label>
+              <input type="text" id="modal-word-input" required>
+            </div>
+
+            <div class="form-group flex-1">
+              <label for="modal-pos-select">Part of Speech <span class="req">*</span></label>
+              <select id="modal-pos-select" required>
+                <option value="Idiom">Idiom</option>
+                <option value="Phrasal Verb">Phrasal Verb</option>
+                <option value="Slang">Slang</option>
+                <option value="Adjective">Adjective</option>
+                <option value="Noun">Noun</option>
+                <option value="Verb">Verb</option>
+                <option value="Expression">Expression</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="modal-az-meaning-input">Translation / Native Meaning <span class="req">*</span></label>
+            <input type="text" id="modal-az-meaning-input" placeholder="e.g. Translation in your native language" required>
+          </div>
+
+          <div class="form-group">
+            <label for="modal-definition-input">English Definition <span class="opt">(Optional)</span></label>
+            <textarea id="modal-definition-input" rows="2"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1" style="position: relative;">
+              <label>Synonyms</label>
+              <div class="tag-input-container" id="modal-synonyms-tag-box">
+                <input type="text" id="modal-synonym-tag-input" placeholder="Type or select..." autocomplete="off">
+              </div>
+              <div id="modal-synonym-suggestions" class="suggestions-dropdown hidden"></div>
+            </div>
+
+            <div class="form-group flex-1">
+              <label>Antonyms</label>
+              <div class="tag-input-container" id="modal-antonyms-tag-box">
+                <input type="text" id="modal-antonym-tag-input" placeholder="Type & hit Enter">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="modal-notes-input">Notes & Nuances</label>
+            <textarea id="modal-notes-input" rows="2"></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="modal-cancel-btn" class="secondary-btn">Cancel</button>
+            <button type="submit" class="primary-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden"></div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
