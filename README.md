@@ -1,4 +1,4 @@
-# 📚 Personal English Vocabulary & Synonym Database
+# 📚 Personal English Vocabulary
 
 A modern, high-performance web application designed to help language learners curate, organize, and explore their personal vocabulary, idioms, and expressions. Built with native JavaScript, HTML5/CSS3 glassmorphism design system, and powered by **Turso (LibSQL) Cloud DB** with automated local JSON fallback storage.
 
