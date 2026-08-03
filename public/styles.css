@@ -125,20 +125,15 @@ body {
   gap: 14px;
 }
 
-.logo-badge {
-  width: 46px;
-  height: 46px;
-  background: var(--primary-gradient);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(45, 55, 72, 0.25);
+.logo-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(45, 55, 72, 0.2);
   transition: transform 0.25s ease;
 }
 
-.logo-badge:hover {
+.logo-img:hover {
   transform: scale(1.05);
 }
 
