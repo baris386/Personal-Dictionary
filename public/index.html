@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal English Vocabulary Archive & Dictionary</title>
+  <!-- Favicon File -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  
+  <!-- Google Fonts: Playfair Display, Outfit, Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="skeuo-theme">
+  
+  <!-- Desk Background Texture Overlays -->
+  <div class="desk-mat-overlay"></div>
+  <div class="desk-vignette"></div>
+
+  <div class="app-container">
+    
+    <!-- Skeuomorphic Top Header / Book Spine Banner -->
+    <header class="skeuo-header">
+      <div class="header-brass-corner top-left"></div>
+      <div class="header-brass-corner top-right"></div>
+      <div class="header-brass-corner bottom-left"></div>
+      <div class="header-brass-corner bottom-right"></div>
+
+      <div class="logo-area">
+        <div class="logo-leather-badge">
+          <img src="logo.svg" alt="Personal Dictionary Logo" class="logo-img">
+          <div class="brass-rivet rivet-tl"></div>
+          <div class="brass-rivet rivet-tr"></div>
+          <div class="brass-rivet rivet-bl"></div>
+          <div class="brass-rivet rivet-br"></div>
+        </div>
+        <div class="logo-text">
+          <h1 class="embossed-title">Personal Lexicon</h1>
+          <p class="gold-foil-subtitle">Master English Vocabulary, Idioms & Connected Synonyms</p>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <!-- Study Flashcard Deck Trigger -->
+        <button id="open-flashcards-btn" class="skeuo-study-btn" title="Practice with 3D Flashcards">
+          <span class="btn-icon">📇</span>
+          <span class="btn-text">Study Flashcards</span>
+        </button>
+
+        <nav class="nav-tabs skeuo-nav">
+          <button class="nav-btn active" data-tab="search-tab" id="search-tab-nav-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            <span>Browse Lexicon</span>
+          </button>
+          <button class="nav-btn" data-tab="add-tab" id="add-tab-nav-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span id="form-tab-label">Add Entry</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- SEARCH & EXPLORE TAB -->
+      <section id="search-tab" class="tab-pane active">
+        
+        <!-- Word of the Day Desk Calendar Widget -->
+        <div id="wotd-widget" class="wotd-calendar-card">
+          <div class="calendar-binder-rings">
+            <div class="binder-ring ring-1"></div>
+            <div class="binder-ring ring-2"></div>
+            <div class="binder-ring ring-3"></div>
+          </div>
+          <div class="wotd-header">
+            <span class="wotd-badge">📅 WORD OF THE DAY</span>
+            <button id="wotd-refresh-btn" class="wotd-shuffle-btn" title="Pick another random word">🎲 Shuffle</button>
+          </div>
+          <div class="wotd-body">
+            <div class="wotd-main">
+              <div class="wotd-word-line">
+                <span id="wotd-word" class="wotd-word">Loading...</span>
+                <span id="wotd-pos" class="pos-stamp">Noun</span>
+                <button id="wotd-audio-btn" class="skeuo-audio-btn" title="Pronounce Word">🔊</button>
+              </div>
+              <div id="wotd-meaning" class="wotd-az-meaning">Native Meaning</div>
+              <div id="wotd-definition" class="wotd-def">Definition will appear here...</div>
+            </div>
+            <div class="wotd-synonyms" id="wotd-synonyms-container">
+              <span class="wotd-syn-label">Synonyms:</span>
+              <div id="wotd-synonyms-list" class="chips-row"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search Hero Card -->
+        <div class="search-hero parchment-card">
+          <div class="stitched-border"></div>
+          
+          <div class="search-input-wrapper debossed-slot">
+            <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            <input type="text" id="search-input" placeholder="Search archive by word, definition, translation, or synonym..." autocomplete="off">
+            <button id="clear-search" class="clear-btn hidden" title="Clear Search">&times;</button>
+          </div>
+
+          <!-- Part of Speech Filter Pills -->
+          <div class="filter-pills-bar">
+            <span class="filter-label">🏷️ Filter POS:</span>
+            <button class="filter-pill active" data-pos="all">All Words</button>
+            <button class="filter-pill" data-pos="Idiom">Idiom</button>
+            <button class="filter-pill" data-pos="Phrasal Verb">Phrasal Verb</button>
+            <button class="filter-pill" data-pos="Slang">Slang</button>
+            <button class="filter-pill" data-pos="Adjective">Adjective</button>
+            <button class="filter-pill" data-pos="Noun">Noun</button>
+            <button class="filter-pill" data-pos="Verb">Verb</button>
+            <button class="filter-pill" data-pos="Expression">Expression</button>
+          </div>
+
+          <!-- A-Z Alphabet Thumb Tabs Ribbon -->
+          <div class="alphabet-ribbon-bar">
+            <span class="ribbon-label">A–Z Index:</span>
+            <div class="alphabet-tabs-container" id="alphabet-tabs">
+              <button class="alpha-tab active" data-letter="all">ALL</button>
+              <!-- A-Z buttons dynamically/statically rendered in JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Toolbar: Counter, Sort Dropdown & View Mode Switcher -->
+        <div class="results-toolbar parchment-toolbar">
+          <div class="results-count-badge">
+            <span id="results-count">Loading archive...</span>
+          </div>
+
+          <div class="results-actions">
+            <!-- Sort Selector -->
+            <div class="sort-wrapper">
+              <label for="sort-select">Sort:</label>
+              <select id="sort-select" class="skeuo-select-compact">
+                <option value="az">Alphabetical (A → Z)</option>
+                <option value="za">Reverse (Z → A)</option>
+                <option value="newest">Recently Added</option>
+                <option value="pos">Part of Speech</option>
+              </select>
+            </div>
+
+            <!-- Skeuomorphic View Mode Rocker Switch -->
+            <div class="view-switch-rocker" id="view-mode-switcher">
+              <button class="view-btn active" id="view-grid-btn" data-view="grid" title="Card Grid View">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                <span>Grid Cards</span>
+              </button>
+              <button class="view-btn" id="view-list-btn" data-view="list" title="Ledger List View">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                <span>Ledger List</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Entries Grid View Container -->
+        <div id="entries-grid" class="entries-grid">
+          <!-- Dynamically populated skeuomorphic cards -->
+        </div>
+
+        <!-- Entries Ledger List View Container -->
+        <div id="entries-list" class="entries-list-container hidden">
+          <!-- Dynamically populated ledger table / rows -->
+        </div>
+
+      </section>
+
+      <!-- ADD WORD TAB -->
+      <section id="add-tab" class="tab-pane">
+        <div class="add-container-single">
+          <form id="add-entry-form" class="parchment-card form-card">
+            <div class="stitched-border"></div>
+            
+            <div class="form-header">
+              <div class="form-badge-icon">✒️</div>
+              <div>
+                <h2 id="form-title" class="embossed-heading">Inscribe New Vocabulary</h2>
+                <p id="form-subtitle">Record a new word, idiom, or phrase with meanings and connections.</p>
+              </div>
+            </div>
+
+            <input type="hidden" id="entry-id-input" value="">
+
+            <div class="form-row">
+              <div class="form-group flex-2">
+                <label for="word-input">Word / Phrase / Idiom <span class="req">*</span></label>
+                <div class="input-icon-box">
+                  <input type="text" id="word-input" class="skeuo-input" placeholder="e.g. Furious, Break a leg, Ubiquitous" required>
+                </div>
+              </div>
+
+              <div class="form-group flex-1">
+                <label for="pos-select">Part of Speech <span class="req">*</span></label>
+                <select id="pos-select" class="skeuo-select" required>
+                  <option value="Idiom">Idiom</option>
+                  <option value="Phrasal Verb">Phrasal Verb</option>
+                  <option value="Slang">Slang</option>
+                  <option value="Adjective">Adjective</option>
+                  <option value="Noun">Noun</option>
+                  <option value="Verb">Verb</option>
+                  <option value="Expression">Expression</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="az-meaning-input">Translation / Native Meaning <span class="req">*</span></label>
+              <input type="text" id="az-meaning-input" class="skeuo-input" placeholder="e.g. Native meaning or direct translation" required>
+            </div>
+
+            <div class="form-group">
+              <label for="definition-input">English Definition <span class="opt">(Optional)</span></label>
+              <textarea id="definition-input" class="skeuo-textarea" rows="2" placeholder="e.g. Extremely angry; full of wild or violent rage..."></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group flex-1" style="position: relative;">
+                <label>Synonyms (Select existing words or type & hit Enter)</label>
+                <div class="tag-input-container skeuo-tag-box" id="synonyms-tag-box">
+                  <input type="text" id="synonym-tag-input" placeholder="Type or select synonym..." autocomplete="off">
+                </div>
+                <div id="synonym-suggestions" class="suggestions-dropdown hidden"></div>
+              </div>
+
+              <div class="form-group flex-1">
+                <label>Antonyms (Type & hit Enter)</label>
+                <div class="tag-input-container skeuo-tag-box" id="antonyms-tag-box">
+                  <input type="text" id="antonym-tag-input" placeholder="Type antonym & hit Enter">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="notes-input">Notes & Nuances (Usage warnings, sitcom scenes, context)</label>
+              <textarea id="notes-input" class="skeuo-textarea" rows="3" placeholder="> e.g. Stronger than 'angry'. Commonly heard in legal or dramatic situations."></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" id="cancel-edit-btn" class="skeuo-btn skeuo-btn-secondary hidden">Cancel Edit</button>
+              <button type="button" id="fill-preset-btn" class="skeuo-btn skeuo-btn-secondary">⚡ Sample Entry</button>
+              <button type="submit" id="submit-btn" class="skeuo-btn skeuo-btn-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span id="submit-btn-label">Seal & Inscribe</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 📇 3D SKEUOMORPHIC FLASHCARD STUDY MODAL -->
+    <div id="flashcards-modal" class="modal-overlay hidden">
+      <div class="flashcard-deck-container parchment-card">
+        <div class="stitched-border"></div>
+        <div class="flashcard-modal-header">
+          <div class="deck-title">
+            <span class="deck-icon">📇</span>
+            <h3 class="embossed-heading">Lexicon Flashcard Deck</h3>
+          </div>
+          <button id="close-flashcards-btn" class="close-modal-btn" title="Close Study Deck">&times;</button>
+        </div>
+
+        <!-- 3D Flipping Card Scene -->
+        <div class="flashcard-scene" id="flashcard-scene">
+          <div class="flashcard-3d" id="flashcard-3d">
+            
+            <!-- FRONT OF CARD -->
+            <div class="flashcard-face flashcard-front">
+              <div class="card-paper-grain"></div>
+              <div class="flashcard-top-bar">
+                <span class="pos-stamp" id="fc-front-pos">Adjective</span>
+                <button id="fc-front-audio" class="skeuo-audio-btn" title="Pronounce">🔊</button>
+              </div>
+              <div class="flashcard-center">
+                <h2 class="fc-word" id="fc-front-word">Word</h2>
+                <p class="fc-hint">Click card or spacebar to flip</p>
+              </div>
+              <div class="flashcard-bottom-hint">
+                <span>🔄 Click card to reveal translation & definition</span>
+              </div>
+            </div>
+
+            <!-- BACK OF CARD -->
+            <div class="flashcard-face flashcard-back">
+              <div class="card-paper-grain"></div>
+              <div class="flashcard-top-bar">
+                <span class="pos-stamp" id="fc-back-pos">Adjective</span>
+                <span class="fc-back-label">REVERSE SIDE</span>
+              </div>
+              <div class="flashcard-back-content">
+                <div class="fc-back-meaning" id="fc-back-meaning">Native Meaning</div>
+                <div class="fc-back-def" id="fc-back-def">English definition goes here.</div>
+                
+                <div class="fc-back-section" id="fc-back-syn-section">
+                  <span class="fc-subheading">Synonyms:</span>
+                  <div class="chips-row" id="fc-back-synonyms"></div>
+                </div>
+
+                <div class="fc-back-notes" id="fc-back-notes"></div>
+              </div>
+              <div class="flashcard-bottom-hint">
+                <span>🔄 Click card to flip back</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Deck Navigation & Controls -->
+        <div class="flashcard-controls">
+          <button id="fc-prev-btn" class="skeuo-btn skeuo-btn-secondary">
+            ◀ Previous
+          </button>
+          <div class="fc-counter-badge">
+            <span id="fc-counter">Card 1 / 10</span>
+          </div>
+          <button id="fc-flip-btn" class="skeuo-btn skeuo-btn-primary">
+            🔄 Flip Card
+          </button>
+          <button id="fc-next-btn" class="skeuo-btn skeuo-btn-secondary">
+            Next ▶
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDIT ENTRY POPUP MODAL -->
+    <div id="edit-modal" class="modal-overlay hidden">
+      <div class="modal-card parchment-card modal-large">
+        <div class="stitched-border"></div>
+        
+        <div class="modal-header">
+          <h3 id="edit-modal-title" class="embossed-heading">Edit Lexicon Entry</h3>
+          <button id="close-edit-modal-btn" class="close-modal-btn">&times;</button>
+        </div>
+
+        <form id="modal-edit-form" class="form-card modal-form">
+          <input type="hidden" id="modal-entry-id" value="">
+
+          <div class="form-row">
+            <div class="form-group flex-2">
+              <label for="modal-word-input">Word / Phrase / Idiom <span class="req">*</span></label>
+              <input type="text" id="modal-word-input" class="skeuo-input" required>
+            </div>
+
+            <div class="form-group flex-1">
+              <label for="modal-pos-select">Part of Speech <span class="req">*</span></label>
+              <select id="modal-pos-select" class="skeuo-select" required>
+                <option value="Idiom">Idiom</option>
+                <option value="Phrasal Verb">Phrasal Verb</option>
+                <option value="Slang">Slang</option>
+                <option value="Adjective">Adjective</option>
+                <option value="Noun">Noun</option>
+                <option value="Verb">Verb</option>
+                <option value="Expression">Expression</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="modal-az-meaning-input">Translation / Native Meaning <span class="req">*</span></label>
+            <input type="text" id="modal-az-meaning-input" class="skeuo-input" placeholder="e.g. Translation in your native language" required>
+          </div>
+
+          <div class="form-group">
+            <label for="modal-definition-input">English Definition <span class="opt">(Optional)</span></label>
+            <textarea id="modal-definition-input" class="skeuo-textarea" rows="2"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1" style="position: relative;">
+              <label>Synonyms</label>
+              <div class="tag-input-container skeuo-tag-box" id="modal-synonyms-tag-box">
+                <input type="text" id="modal-synonym-tag-input" placeholder="Type or select..." autocomplete="off">
+              </div>
+              <div id="modal-synonym-suggestions" class="suggestions-dropdown hidden"></div>
+            </div>
+
+            <div class="form-group flex-1">
+              <label>Antonyms</label>
+              <div class="tag-input-container skeuo-tag-box" id="modal-antonyms-tag-box">
+                <input type="text" id="modal-antonym-tag-input" placeholder="Type & hit Enter">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="modal-notes-input">Notes & Nuances</label>
+            <textarea id="modal-notes-input" class="skeuo-textarea" rows="2"></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="modal-cancel-btn" class="skeuo-btn skeuo-btn-secondary">Cancel</button>
+            <button type="submit" class="skeuo-btn skeuo-btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Update Inscription
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Skeuomorphic Wax Seal Toast Notification -->
+    <div id="toast" class="toast skeuo-toast hidden"></div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

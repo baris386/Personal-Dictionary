@@ -1,0 +1,1731 @@
+/* ==========================================================================
+   PERSONAL DICTIONARY - SKEUOMORPHIC DESIGN SYSTEM
+   Theme: Vintage Leather Library, Warm Parchment & Gilded Brass
+   ========================================================================== */
+
+:root {
+  /* Desk & Leather Material Colors */
+  --desk-wood: #26170f;
+  --desk-wood-light: #3d2417;
+  --leather-dark: #2a1810;
+  --leather-brown: #4a2c1d;
+  --leather-accent: #6d412b;
+  
+  /* Parchment Paper Tones */
+  --parchment-light: #fefdfa;
+  --parchment-base: #faf4e6;
+  --parchment-aged: #f3e9ce;
+  --parchment-border: #d6c4a5;
+  --parchment-stitch: #b39775;
+  --paper-ruled-line: rgba(186, 166, 137, 0.45);
+  --paper-margin-line: rgba(214, 90, 70, 0.4);
+
+  /* Brass & Gold Foil Accents */
+  --brass-highlight: #ffebb0;
+  --brass-gold: #cfa859;
+  --brass-dark: #8c6a28;
+  --brass-shadow: #4d3810;
+
+  /* Ink Colors */
+  --ink-primary: #231c16;
+  --ink-secondary: #5c4d3f;
+  --ink-muted: #8b7967;
+  --ink-faint: #b4a390;
+
+  /* Accent Stamp Colors */
+  --stamp-green: #2e6945;
+  --stamp-green-bg: #eaf4ed;
+  --stamp-green-border: #9dc5ac;
+  --stamp-green-shadow: #194028;
+
+  --stamp-amber: #945318;
+  --stamp-amber-bg: #fdf2e4;
+  --stamp-amber-border: #e6b885;
+
+  --stamp-crimson: #8f2323;
+  --stamp-crimson-bg: #fae8e8;
+  --stamp-crimson-border: #df9e9e;
+  --stamp-crimson-shadow: #5c1414;
+
+  --stamp-blue: #234d70;
+  --stamp-blue-bg: #eaf1f7;
+  --stamp-blue-border: #9bc0df;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Fira Code', monospace;
+
+  /* Skeuomorphic Depth & Radii */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 30px;
+
+  --shadow-card: 
+    0 12px 28px rgba(15, 9, 6, 0.45),
+    0 3px 8px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  --shadow-inset-groove:
+    inset 0 3px 6px rgba(45, 30, 18, 0.35),
+    inset 0 1px 2px rgba(0, 0, 0, 0.25),
+    0 1px 0 rgba(255, 255, 255, 0.85);
+
+  --shadow-btn-3d:
+    0 4px 0 var(--stamp-green-shadow),
+    0 6px 12px rgba(20, 12, 7, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* ==========================================================================
+   Base & Textured Desk Background
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body.skeuo-theme {
+  font-family: var(--font-body);
+  background-color: var(--desk-wood);
+  color: var(--ink-primary);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Realistic Desk Wood & Leather Mat Overlay */
+.desk-mat-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  background: 
+    radial-gradient(ellipse at 50% 10%, rgba(85, 48, 29, 0.6) 0%, rgba(26, 15, 10, 0.95) 100%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.015) 0px, rgba(255, 255, 255, 0.015) 2px, transparent 2px, transparent 6px),
+    repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.03) 0px, rgba(0, 0, 0, 0.03) 2px, transparent 2px, transparent 6px);
+}
+
+.desk-vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.85);
+}
+
+.app-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 24px 18px 48px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* ==========================================================================
+   Skeuomorphic Top Header / Book Spine Banner
+   ========================================================================== */
+
+.skeuo-header {
+  position: relative;
+  background: linear-gradient(180deg, #3d2217 0%, #28150c 100%);
+  border: 2px solid #5a3621;
+  border-radius: var(--radius-lg);
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Stitched thread along header edge */
+.skeuo-header::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 1px dashed rgba(207, 168, 89, 0.35);
+  border-radius: calc(var(--radius-lg) - 3px);
+  pointer-events: none;
+}
+
+/* Brass Corner Plates */
+.header-brass-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(135deg, var(--brass-highlight) 0%, var(--brass-gold) 50%, var(--brass-dark) 100%);
+  border: 1px solid var(--brass-shadow);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+.header-brass-corner.top-left { top: 6px; left: 6px; border-radius: 4px 0 6px 0; }
+.header-brass-corner.top-right { top: 6px; right: 6px; border-radius: 0 4px 0 6px; }
+.header-brass-corner.bottom-left { bottom: 6px; left: 6px; border-radius: 0 6px 0 4px; }
+.header-brass-corner.bottom-right { bottom: 6px; right: 6px; border-radius: 6px 0 4px 0; }
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Stamped Leather Badge for Logo */
+.logo-leather-badge {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(145deg, #4d2b1b 0%, #2b160b 100%);
+  border: 1.5px solid #6b3e27;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 4px 10px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.logo-img {
+  width: 34px;
+  height: 34px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+/* Brass Rivets on Logo Badge */
+.brass-rivet {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--brass-highlight) 0%, var(--brass-gold) 60%, var(--brass-dark) 100%);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+.brass-rivet.rivet-tl { top: 3px; left: 3px; }
+.brass-rivet.rivet-tr { top: 3px; right: 3px; }
+.brass-rivet.rivet-bl { bottom: 3px; left: 3px; }
+.brass-rivet.rivet-br { bottom: 3px; right: 3px; }
+
+.logo-text .embossed-title {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #faeed7;
+  text-shadow: 
+    0 -1px 1px #000000,
+    0 1px 2px rgba(0, 0, 0, 0.8),
+    0 0 12px rgba(207, 168, 89, 0.3);
+}
+
+.logo-text .gold-foil-subtitle {
+  font-size: 0.82rem;
+  color: #cfa859;
+  letter-spacing: 0.4px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  font-weight: 500;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* 📇 Study Flashcard Button in Header */
+.skeuo-study-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: linear-gradient(180deg, #945318 0%, #6e390c 100%);
+  border: 1px solid #b86e28;
+  border-radius: var(--radius-md);
+  color: #fff8eb;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 
+    0 3px 0 #421f04,
+    0 5px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: all 0.15s ease;
+}
+
+.skeuo-study-btn:hover {
+  background: linear-gradient(180deg, #a65e1e 0%, #7d410f 100%);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 4px 0 #421f04,
+    0 7px 14px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.skeuo-study-btn:active {
+  transform: translateY(3px);
+  box-shadow: 
+    0 0 0 #421f04,
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Navigation Tabs */
+.skeuo-nav {
+  display: flex;
+  gap: 6px;
+  background: #1e0e07;
+  padding: 4px;
+  border-radius: var(--radius-md);
+  box-shadow: 
+    inset 0 2px 6px rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid #3d2012;
+}
+
+.skeuo-nav .nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: #bfa38a;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.skeuo-nav .nav-btn:hover {
+  color: #faeed7;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.skeuo-nav .nav-btn.active {
+  background: linear-gradient(180deg, #53301f 0%, #3a1e11 100%);
+  color: #ffecc2;
+  border-color: #7a4a30;
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+
+/* ==========================================================================
+   Parchment Card & Container Materials
+   ========================================================================== */
+
+.parchment-card {
+  position: relative;
+  background: linear-gradient(175deg, var(--parchment-light) 0%, var(--parchment-base) 60%, var(--parchment-aged) 100%);
+  border: 1.5px solid var(--parchment-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 24px;
+}
+
+/* Stitched leather thread inner edge */
+.stitched-border {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 1.5px dashed var(--parchment-stitch);
+  border-radius: calc(var(--radius-md) - 3px);
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+/* Embossed / Letterpress Heading Effects */
+.embossed-heading {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Tab Panes */
+.tab-pane {
+  display: none;
+  animation: skeuoFadeIn 0.25s ease-out;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+@keyframes skeuoFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   📅 Word of the Day Desk Calendar Widget
+   ========================================================================== */
+
+.wotd-calendar-card {
+  position: relative;
+  background: linear-gradient(180deg, #fffef9 0%, #f7efdb 100%);
+  border: 2px solid #d4be9b;
+  border-radius: var(--radius-md);
+  padding: 20px 24px 18px 24px;
+  margin-bottom: 20px;
+  box-shadow: 
+    0 10px 24px rgba(18, 11, 7, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Metallic Binder Rings */
+.calendar-binder-rings {
+  position: absolute;
+  top: -10px;
+  left: 36px;
+  right: 36px;
+  display: flex;
+  justify-content: space-around;
+  pointer-events: none;
+}
+
+.binder-ring {
+  width: 14px;
+  height: 20px;
+  background: linear-gradient(135deg, #e6e6e6 0%, #a6a6a6 45%, #666666 75%, #ffffff 100%);
+  border-radius: 7px;
+  border: 1px solid #4d4d4d;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px #fff;
+}
+
+.wotd-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed #d6c0a0;
+  padding-bottom: 8px;
+}
+
+.wotd-badge {
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--stamp-amber);
+  text-shadow: 0 1px 0 #fff;
+}
+
+.wotd-shuffle-btn {
+  background: #f0e4d0;
+  border: 1px solid #c9b18f;
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15), inset 0 1px 0 #fff;
+  transition: all 0.15s ease;
+}
+
+.wotd-shuffle-btn:hover {
+  background: #e8dbbf;
+  color: var(--ink-primary);
+  transform: translateY(-1px);
+}
+
+.wotd-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.wotd-main {
+  flex: 2;
+  min-width: 260px;
+}
+
+.wotd-word-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.wotd-word {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a1510;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.wotd-az-meaning {
+  font-family: var(--font-body);
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--stamp-green);
+  margin-bottom: 4px;
+}
+
+.wotd-def {
+  font-size: 0.9rem;
+  color: var(--ink-secondary);
+  font-style: italic;
+}
+
+.wotd-synonyms {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(235, 222, 201, 0.45);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #dec8a9;
+}
+
+.wotd-syn-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* ==========================================================================
+   Search & Controls Hero Card
+   ========================================================================== */
+
+.search-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* Debossed / Inset Slot for Search Input */
+.debossed-slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f2e9d2;
+  border: 1.5px solid #c4b091;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inset-groove);
+  transition: all 0.2s ease;
+}
+
+.debossed-slot:focus-within {
+  border-color: var(--stamp-green);
+  background: #fdfaf2;
+  box-shadow: 
+    inset 0 2px 4px rgba(45, 30, 18, 0.2),
+    0 0 12px rgba(46, 105, 69, 0.25),
+    0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.search-icon {
+  position: absolute;
+  left: 18px;
+  color: var(--ink-muted);
+  pointer-events: none;
+}
+
+#search-input {
+  width: 100%;
+  padding: 15px 48px 15px 52px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--ink-primary);
+}
+
+#search-input::placeholder {
+  color: var(--ink-muted);
+  font-style: italic;
+}
+
+.clear-btn {
+  position: absolute;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: var(--ink-muted);
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+}
+.clear-btn:hover { color: var(--ink-primary); }
+
+/* Part of Speech Filter Pills (Skeuomorphic 3D Stamped Badges) */
+.filter-pills-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink-secondary);
+  margin-right: 4px;
+}
+
+.filter-pill {
+  padding: 6px 14px;
+  background: linear-gradient(180deg, #fbf7ee 0%, #ede1cb 100%);
+  border: 1px solid #c9b494;
+  border-radius: var(--radius-pill);
+  color: var(--ink-secondary);
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 
+    0 2px 0 #b39b78,
+    0 3px 6px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 #ffffff;
+  transition: all 0.15s ease;
+}
+
+.filter-pill:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #f4e8d3 100%);
+  color: var(--ink-primary);
+  transform: translateY(-1px);
+}
+
+.filter-pill.active {
+  background: linear-gradient(180deg, #3d2217 0%, #29150c 100%);
+  border-color: #5a3621;
+  color: #ffecc2;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(255, 255, 255, 0.8);
+  transform: translateY(1px);
+}
+
+/* ==========================================================================
+   A–Z Alphabet Thumb Tabs Ribbon
+   ========================================================================== */
+
+.alphabet-ribbon-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--parchment-border);
+  overflow-x: auto;
+}
+
+.ribbon-label {
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+.alphabet-tabs-container {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.alpha-tab {
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  background: #ede3cc;
+  border: 1px solid #c7b18e;
+  border-radius: 4px;
+  color: var(--ink-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1), inset 0 1px 0 #fff;
+  transition: all 0.15s ease;
+}
+
+.alpha-tab:hover {
+  background: #e2d4b6;
+  color: var(--ink-primary);
+  transform: translateY(-1px);
+}
+
+.alpha-tab.active {
+  background: #8f2323;
+  border-color: #5c1414;
+  color: #fff;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.8);
+}
+
+/* ==========================================================================
+   Results Toolbar, Sort & View Mode Switcher
+   ========================================================================== */
+
+.parchment-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 12px 18px;
+  background: linear-gradient(180deg, #f7f0df 0%, #ebe0c8 100%);
+  border: 1px solid var(--parchment-border);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15), inset 0 1px 0 #fff;
+  margin-bottom: 20px;
+}
+
+.results-count-badge {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ink-secondary);
+}
+
+.results-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Sort Selector */
+.sort-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+}
+
+.skeuo-select-compact {
+  padding: 6px 12px;
+  background: #fdfaf2;
+  border: 1px solid #c4b091;
+  border-radius: var(--radius-sm);
+  color: var(--ink-primary);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1), 0 1px 0 #fff;
+}
+
+/* 🎛️ Skeuomorphic View Mode Rocker Switch */
+.view-switch-rocker {
+  display: flex;
+  background: #20130b;
+  padding: 3px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #4a2d1a;
+  box-shadow: 
+    inset 0 2px 5px rgba(0, 0, 0, 0.7),
+    0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.view-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #a8917c;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-btn:hover {
+  color: #fff;
+}
+
+.view-btn.active {
+  background: linear-gradient(180deg, #fefdfa 0%, #e6d8be 100%);
+  color: var(--ink-primary);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 #fff;
+}
+
+/* ==========================================================================
+   📖 1. Grid Cards View Mode
+   ========================================================================== */
+
+.entries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 22px;
+}
+
+.entry-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 250px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.entry-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 18px 36px rgba(15, 9, 6, 0.55),
+    0 4px 10px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+
+.card-word-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.card-word {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--ink-primary);
+  line-height: 1.2;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Audio Speaker Button (3D Brass Coin) */
+.skeuo-audio-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, var(--brass-highlight) 0%, var(--brass-gold) 60%, var(--brass-dark) 100%);
+  border: 1px solid var(--brass-shadow);
+  border-radius: 50%;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 
+    0 2px 0 var(--brass-shadow),
+    0 3px 5px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px #fff;
+  transition: all 0.1s ease;
+}
+
+.skeuo-audio-btn:hover {
+  transform: scale(1.08);
+}
+
+.skeuo-audio-btn:active {
+  transform: translateY(2px) scale(0.96);
+  box-shadow: 
+    0 0 0 var(--brass-shadow),
+    inset 0 2px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Part of Speech Stamp Badge */
+.pos-stamp {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 9px;
+  border-radius: 4px;
+  background: var(--stamp-blue-bg);
+  border: 1.5px dashed var(--stamp-blue-border);
+  color: var(--stamp-blue);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+.az-meaning {
+  font-family: var(--font-body);
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--stamp-green);
+  margin-bottom: 8px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.card-definition {
+  font-size: 0.92rem;
+  color: var(--ink-secondary);
+  margin-bottom: 12px;
+  line-height: 1.45;
+}
+
+.card-section-title {
+  font-family: var(--font-heading);
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--ink-muted);
+  margin-bottom: 5px;
+}
+
+.chips-row, .synonyms-wrapper, .antonyms-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+/* Skeuomorphic Paper Luggage Tags / Stamp Chips */
+.chip {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #fbf7ee;
+  border: 1px solid #d4c2a5;
+  color: #3b6b4e;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06), inset 0 1px 0 #fff;
+}
+
+.chip-antonym {
+  color: #9c3333;
+  border-color: #dfb2b2;
+  background: #fef7f7;
+}
+
+.notes-quote {
+  padding: 10px 14px;
+  background: #f4ebd6;
+  border-left: 3.5px solid var(--brass-gold);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.85rem;
+  color: #4f3f31;
+  font-style: italic;
+  margin-bottom: 16px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Card Bottom Actions */
+.card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--parchment-border);
+}
+
+/* ==========================================================================
+   📑 2. Ledger List View Mode (Lined Stationery Notebook Layout)
+   ========================================================================== */
+
+.entries-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ledger-table-card {
+  background: linear-gradient(180deg, #fffefc 0%, #faf3e2 100%);
+  border: 1.5px solid var(--parchment-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.ledger-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 16px 32px;
+  border-bottom: 1px solid var(--paper-ruled-line);
+  background: transparent;
+  transition: background 0.15s ease;
+  gap: 14px;
+}
+
+/* Red Margin Rule on left side */
+.ledger-row::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 18px;
+  width: 2px;
+  background: var(--paper-margin-line);
+  pointer-events: none;
+}
+
+.ledger-row:nth-child(even) {
+  background: rgba(243, 233, 212, 0.35);
+}
+
+.ledger-row:hover {
+  background: rgba(245, 237, 218, 0.85);
+}
+
+.ledger-col-main {
+  flex: 3;
+  min-width: 220px;
+}
+
+.ledger-word-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2px;
+}
+
+.ledger-word {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--ink-primary);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+}
+
+.ledger-az-meaning {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--stamp-green);
+}
+
+.ledger-col-def {
+  flex: 4;
+  min-width: 240px;
+  font-size: 0.88rem;
+  color: var(--ink-secondary);
+}
+
+.ledger-col-tags {
+  flex: 3;
+  min-width: 180px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.ledger-col-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Expandable Ledger Row Drawer for Notes & Antonyms */
+.ledger-expand-btn {
+  background: #efe5ce;
+  border: 1px solid #ccb593;
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1), inset 0 1px 0 #fff;
+  transition: all 0.15s ease;
+}
+
+.ledger-expand-btn:hover {
+  background: #e2d3b4;
+  color: var(--ink-primary);
+}
+
+.ledger-row-details {
+  background: #f7eed7;
+  padding: 14px 24px 14px 36px;
+  border-bottom: 1px dashed var(--parchment-border);
+  display: none;
+  animation: skeuoFadeIn 0.2s ease;
+}
+
+.ledger-row-details.expanded {
+  display: block;
+}
+
+.ledger-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+/* ==========================================================================
+   Skeuomorphic Buttons (3D Bevel & Mechanical Depression Physics)
+   ========================================================================== */
+
+.skeuo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+/* Primary Button: Deep Forest Green Leather with 3D Bevel */
+.skeuo-btn-primary {
+  background: linear-gradient(180deg, #3d8058 0%, #25583b 100%);
+  border: 1px solid #489b6a;
+  color: #ffffff;
+  box-shadow: 
+    0 4px 0 #143522,
+    0 6px 12px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  text-shadow: 0 -1px 1px #112d1c;
+}
+
+.skeuo-btn-primary:hover {
+  background: linear-gradient(180deg, #469165 0%, #2a6343 100%);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 5px 0 #143522,
+    0 8px 16px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.skeuo-btn-primary:active {
+  transform: translateY(3px);
+  box-shadow: 
+    0 1px 0 #143522,
+    0 2px 4px rgba(0, 0, 0, 0.25),
+    inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Secondary Button: Buff / Cream Cardstock with Rim */
+.skeuo-btn-secondary {
+  background: linear-gradient(180deg, #fdfaf4 0%, #ede1c8 100%);
+  border: 1px solid #c9b494;
+  color: var(--ink-secondary);
+  box-shadow: 
+    0 3px 0 #b09977,
+    0 4px 8px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 #ffffff;
+}
+
+.skeuo-btn-secondary:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #f4e8d3 100%);
+  color: var(--ink-primary);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 4px 0 #b09977,
+    0 6px 12px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 #ffffff;
+}
+
+.skeuo-btn-secondary:active {
+  transform: translateY(2px);
+  box-shadow: 
+    0 1px 0 #b09977,
+    0 2px 4px rgba(0, 0, 0, 0.15),
+    inset 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Mini Action Buttons (Edit & Delete) */
+.edit-btn, .card-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.edit-btn {
+  background: linear-gradient(180deg, #fcfbfa 0%, #ebe0ca 100%);
+  border: 1px solid #c7b393;
+  color: var(--ink-secondary);
+  box-shadow: 0 2px 0 #b39b78, 0 3px 5px rgba(0,0,0,0.15), inset 0 1px 0 #fff;
+}
+
+.edit-btn:hover {
+  background: #ffffff;
+  color: var(--ink-primary);
+  transform: translateY(-1px);
+}
+
+.edit-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #b39b78, inset 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.card-delete-btn {
+  background: linear-gradient(180deg, #faeeee 0%, #ebd0d0 100%);
+  border: 1px solid #dcaaaa;
+  color: #8f2323;
+  box-shadow: 0 2px 0 #b57a7a, 0 3px 5px rgba(0,0,0,0.15), inset 0 1px 0 #fff;
+}
+
+.card-delete-btn:hover {
+  background: #ffeded;
+  color: #6e1212;
+  transform: translateY(-1px);
+}
+
+.card-delete-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #b57a7a, inset 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* ==========================================================================
+   Inscribing & Add Form Styling
+   ========================================================================== */
+
+.add-container-single {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 32px;
+}
+
+.form-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px dashed var(--parchment-border);
+  padding-bottom: 14px;
+}
+
+.form-badge-icon {
+  font-size: 2rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.form-header p {
+  font-size: 0.88rem;
+  color: var(--ink-secondary);
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.flex-1 { flex: 1; }
+.flex-2 { flex: 2; }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink-secondary);
+}
+
+.req { color: var(--stamp-crimson); font-weight: 800; }
+.opt { color: var(--ink-muted); font-weight: 400; font-size: 0.8rem; }
+
+/* Inset Debossed Inputs */
+.skeuo-input, .skeuo-select, .skeuo-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: #f7f1e1;
+  border: 1.5px solid #c9b494;
+  border-radius: var(--radius-sm);
+  color: var(--ink-primary);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  outline: none;
+  box-shadow: var(--shadow-inset-groove);
+  transition: all 0.2s ease;
+}
+
+.skeuo-input:focus, .skeuo-select:focus, .skeuo-textarea:focus {
+  border-color: var(--stamp-green);
+  background: #ffffff;
+  box-shadow: 
+    inset 0 2px 4px rgba(45, 30, 18, 0.18),
+    0 0 10px rgba(46, 105, 69, 0.25),
+    0 1px 0 #fff;
+}
+
+.skeuo-textarea {
+  resize: vertical;
+  line-height: 1.45;
+}
+
+/* Tag Inputs */
+.skeuo-tag-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  background: #f7f1e1;
+  border: 1.5px solid #c9b494;
+  border-radius: var(--radius-sm);
+  min-height: 46px;
+  box-shadow: var(--shadow-inset-groove);
+}
+
+.skeuo-tag-box input {
+  flex: 1;
+  min-width: 120px;
+  border: none;
+  background: transparent;
+  padding: 4px;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--ink-primary);
+}
+
+.editable-tag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #fbf7ee;
+  border: 1px solid #cbbaa0;
+  color: #3b6b4e;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08), inset 0 1px 0 #fff;
+}
+
+.editable-tag .remove-tag {
+  cursor: pointer;
+  color: #8f2323;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fdfaf2;
+  border: 1.5px solid #c9b494;
+  border-radius: var(--radius-sm);
+  max-height: 180px;
+  overflow-y: auto;
+  z-index: 60;
+  box-shadow: 0 12px 28px rgba(18, 11, 7, 0.4);
+  margin-top: 4px;
+}
+
+.suggestion-item {
+  padding: 9px 14px;
+  font-size: 0.88rem;
+  color: var(--ink-primary);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ede1cb;
+}
+
+.suggestion-item:hover {
+  background: #ece0c8;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+  border-top: 1px dashed var(--parchment-border);
+  padding-top: 16px;
+}
+
+/* ==========================================================================
+   📇 3D Skeuomorphic Flashcard Study Deck Modal
+   ========================================================================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(18, 10, 6, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: skeuoFadeIn 0.2s ease;
+}
+
+.flashcard-deck-container {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.flashcard-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed var(--parchment-border);
+  padding-bottom: 10px;
+}
+
+.deck-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.deck-icon { font-size: 1.5rem; }
+
+.close-modal-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--ink-muted);
+  cursor: pointer;
+  line-height: 1;
+}
+.close-modal-btn:hover { color: var(--stamp-crimson); }
+
+/* 3D Flipping Scene & Card */
+.flashcard-scene {
+  perspective: 1200px;
+  width: 100%;
+  height: 320px;
+}
+
+.flashcard-3d {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.flashcard-3d.flipped {
+  transform: rotateY(180deg);
+}
+
+.flashcard-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius-md);
+  border: 2px solid #d4be9b;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 
+    0 16px 36px rgba(18, 10, 6, 0.45),
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.flashcard-front {
+  background: linear-gradient(175deg, #fffdf8 0%, #faf1dd 60%, #f4e7c7 100%);
+}
+
+.flashcard-back {
+  background: linear-gradient(175deg, #fbf7ec 0%, #f4e9cf 60%, #ebdbc0 100%);
+  transform: rotateY(180deg);
+}
+
+.flashcard-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fc-back-label {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--ink-muted);
+}
+
+.flashcard-center {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.fc-word {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--ink-primary);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+  margin-bottom: 6px;
+}
+
+.fc-hint {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+
+.flashcard-bottom-hint {
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  border-top: 1px dashed #d6c0a0;
+  padding-top: 8px;
+}
+
+.flashcard-back-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.fc-back-meaning {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--stamp-green);
+  text-shadow: 0 1px 0 #fff;
+}
+
+.fc-back-def {
+  font-size: 0.92rem;
+  color: var(--ink-secondary);
+  line-height: 1.4;
+}
+
+.fc-subheading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-right: 6px;
+}
+
+.fc-back-notes {
+  font-size: 0.82rem;
+  color: #5c4b3a;
+  font-style: italic;
+  background: #faeed7;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border-left: 3px solid var(--brass-gold);
+}
+
+/* Flashcard Deck Controls */
+.flashcard-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.fc-counter-badge {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  background: #eee2c9;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #ccb694;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1), 0 1px 0 #fff;
+}
+
+/* Edit Modal Card */
+.modal-card {
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-large {
+  max-width: 760px;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed var(--parchment-border);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.modal-form {
+  padding: 0;
+  box-shadow: none;
+  background: transparent;
+  border: none;
+}
+
+/* ==========================================================================
+   Skeuomorphic Wax Seal Toast Notification
+   ========================================================================== */
+
+.skeuo-toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  padding: 14px 24px;
+  background: linear-gradient(180deg, #8f2323 0%, #631414 100%);
+  border: 1.5px solid #bd4646;
+  border-radius: var(--radius-sm);
+  color: #fff8f8;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.92rem;
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.55),
+    0 2px 4px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  text-shadow: 0 -1px 1px #380808;
+  z-index: 2000;
+  animation: skeuoSlideUp 0.25s ease-out;
+}
+
+.skeuo-toast.hidden { display: none; }
+
+@keyframes skeuoSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.hidden { display: none !important; }
+
+/* Empty & Error States */
+.empty-state {
+  grid-column: 1 / -1;
+  padding: 48px 24px;
+  text-align: center;
+  border: 2px dashed #c9b494;
+  border-radius: var(--radius-md);
+  background: rgba(247, 239, 223, 0.7);
+}
+
+.empty-state h3 {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--ink-primary);
+}
+
+.empty-state p {
+  color: var(--ink-secondary);
+  margin-top: 8px;
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .skeuo-header {
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .entries-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ledger-row {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 28px;
+    gap: 8px;
+  }
+
+  .ledger-col-main, .ledger-col-def, .ledger-col-tags, .ledger-col-actions {
+    width: 100%;
+  }
+
+  .flashcard-scene {
+    height: 380px;
+  }
+}
