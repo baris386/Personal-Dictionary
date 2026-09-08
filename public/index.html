@@ -54,6 +54,11 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
             <span>Browse Lexicon</span>
           </button>
+          <button class="nav-btn" data-tab="saved-tab" id="saved-tab-nav-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg>
+            <span>Saved for Later</span>
+            <span class="nav-counter-badge" id="saved-words-count-badge">0</span>
+          </button>
           <button class="nav-btn" data-tab="add-tab" id="add-tab-nav-btn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             <span id="form-tab-label">Add Entry</span>
@@ -173,6 +178,86 @@
 
       </section>
 
+      <!-- 📌 SAVED FOR LATER / WORD SCRATCHPAD TAB -->
+      <section id="saved-tab" class="tab-pane">
+        
+        <!-- Scratchpad Hero / Quick Capture Bar -->
+        <div class="scratchpad-hero parchment-card">
+          <div class="stitched-border"></div>
+
+          <div class="scratchpad-header-row">
+            <div class="scratchpad-title-box">
+              <div class="form-badge-icon">📌</div>
+              <div>
+                <h2 class="embossed-heading">Vocabulary Scratchpad & Backlog</h2>
+                <p class="gold-foil-subtitle" style="margin-top:2px;">Quickly capture unfamiliar words, idioms, or sentences to define & inscribe later.</p>
+              </div>
+            </div>
+
+            <!-- Mode switch: Single Quick Capture vs Batch Multi-Word Paste -->
+            <div class="scratchpad-mode-pills">
+              <button class="scratchpad-mode-btn active" id="mode-single-btn">⚡ Quick Add</button>
+              <button class="scratchpad-mode-btn" id="mode-batch-btn">📋 Batch Paste</button>
+            </div>
+          </div>
+
+          <!-- Single Quick Add Form -->
+          <form id="quick-save-form" class="quick-save-form-row">
+            <div class="quick-input-group flex-2">
+              <label for="quick-word-input">Word / Phrase / Idiom <span class="req">*</span></label>
+              <div class="input-icon-box">
+                <input type="text" id="quick-word-input" class="skeuo-input" placeholder="e.g. Ubiquitous, Catch-22, Serendipity..." autocomplete="off" required>
+              </div>
+            </div>
+
+            <div class="quick-input-group flex-2">
+              <label for="quick-notes-input">Quick Context / Note <span class="opt">(Optional)</span></label>
+              <input type="text" id="quick-notes-input" class="skeuo-input" placeholder="e.g. Heard in podcast ep. 4; meaning maybe 'everywhere'..." autocomplete="off">
+            </div>
+
+            <div class="quick-btn-group">
+              <button type="submit" id="quick-save-submit-btn" class="skeuo-btn skeuo-btn-primary">
+                <span>📌 Save Word</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Batch Multi-Word Import Form (Initially Hidden) -->
+          <form id="batch-save-form" class="batch-save-form-container hidden">
+            <div class="form-group">
+              <label for="batch-words-input">Paste Multiple Words (one word per line or comma-separated):</label>
+              <textarea id="batch-words-input" class="skeuo-textarea" rows="4" placeholder="Ephemeral&#10;Juxtaposition&#10;Spill the beans&#10;Resilient"></textarea>
+            </div>
+            <div class="batch-actions">
+              <button type="button" id="batch-cancel-btn" class="skeuo-btn skeuo-btn-secondary">Cancel</button>
+              <button type="submit" class="skeuo-btn skeuo-btn-primary">
+                <span>📥 Save All to Scratchpad</span>
+              </button>
+            </div>
+          </form>
+
+        </div>
+
+        <!-- Saved Words Toolbar (Search filter & total count) -->
+        <div class="results-toolbar parchment-toolbar">
+          <div class="results-count-badge">
+            <span id="saved-words-status">Loading saved backlog...</span>
+          </div>
+
+          <div class="saved-search-box debossed-slot-compact">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            <input type="text" id="saved-search-input" placeholder="Filter saved words..." autocomplete="off">
+            <button id="clear-saved-search" class="clear-btn hidden" title="Clear Filter">&times;</button>
+          </div>
+        </div>
+
+        <!-- Saved Words Cards Container -->
+        <div id="saved-words-grid" class="saved-words-grid">
+          <!-- Dynamically populated memo slips -->
+        </div>
+
+      </section>
+
       <!-- ADD WORD TAB -->
       <section id="add-tab" class="tab-pane">
         <div class="add-container-single">
@@ -187,6 +272,16 @@
               </div>
             </div>
 
+            <!-- Origin Inscription Banner (shown when moving a word from Saved list) -->
+            <div id="inscribe-origin-banner" class="inscribe-origin-banner hidden">
+              <div class="inscribe-banner-content">
+                <span class="banner-icon">📌</span>
+                <span>Inscribing from Scratchpad: <strong id="inscribe-origin-word"></strong> (Will be removed from saved backlog upon inscription)</span>
+              </div>
+              <button type="button" id="inscribe-origin-dismiss-btn" class="inscribe-dismiss-btn" title="Dismiss link">&times;</button>
+            </div>
+
+            <input type="hidden" id="inscribe-origin-id" value="">
             <input type="hidden" id="entry-id-input" value="">
 
             <div class="form-row">

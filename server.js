@@ -282,6 +282,98 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // --- SAVED WORDS (SCRATCHPAD / TO-ADD LATER) ENDPOINTS ---
+
+  // GET /api/saved-words
+  if (pathname === '/api/saved-words' && method === 'GET') {
+    try {
+      const savedWords = await db.getSavedWords();
+      res.writeHead(200, { 'Content-Type': MIME_TYPES['.json'] });
+      res.end(JSON.stringify({ success: true, savedWords, total: savedWords.length }));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': MIME_TYPES['.json'] });
+      res.end(JSON.stringify({ success: false, error: err.message }));
+    }
+    return;
+  }
+
+  // POST /api/saved-words - Quick add single or batch saved words
+  if (pathname === '/api/saved-words' && method === 'POST') {
+    try {
+      const body = await getJsonBody();
+
+      // Handle batch import (array of words)
+      if (Array.isArray(body.words)) {
+        const results = [];
+        for (const item of body.words) {
+          const rawWord = typeof item === 'string' ? item : item.word;
+          const rawNotes = typeof item === 'object' ? item.notes : (body.notes || '');
+          if (!rawWord || !rawWord.trim()) continue;
+
+          const formattedWord = capitalizeFirstLetter(rawWord);
+          const id = (typeof item === 'object' && item.id) 
+            ? item.id 
+            : 'saved-' + formattedWord.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Math.random().toString(36).substring(2, 7);
+
+          const savedItem = {
+            id,
+            word: formattedWord,
+            notes: (rawNotes || '').trim(),
+            createdAt: new Date().toISOString()
+          };
+
+          await db.saveSavedWord(savedItem);
+          results.push(savedItem);
+        }
+
+        res.writeHead(200, { 'Content-Type': MIME_TYPES['.json'] });
+        res.end(JSON.stringify({ success: true, savedWords: results, count: results.length }));
+        return;
+      }
+
+      // Single word save
+      if (!body.word || !body.word.trim()) {
+        res.writeHead(400, { 'Content-Type': MIME_TYPES['.json'] });
+        res.end(JSON.stringify({ success: false, error: 'Word is required to save.' }));
+        return;
+      }
+
+      const formattedWord = capitalizeFirstLetter(body.word);
+      const id = body.id || 'saved-' + formattedWord.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Math.random().toString(36).substring(2, 7);
+
+      const savedWord = {
+        id,
+        word: formattedWord,
+        notes: (body.notes || '').trim(),
+        createdAt: body.createdAt || new Date().toISOString()
+      };
+
+      await db.saveSavedWord(savedWord);
+
+      res.writeHead(200, { 'Content-Type': MIME_TYPES['.json'] });
+      res.end(JSON.stringify({ success: true, savedWord }));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': MIME_TYPES['.json'] });
+      res.end(JSON.stringify({ success: false, error: err.message }));
+    }
+    return;
+  }
+
+  // DELETE /api/saved-words/:id
+  if (pathname.startsWith('/api/saved-words/') && method === 'DELETE') {
+    try {
+      const id = pathname.replace('/api/saved-words/', '');
+      await db.deleteSavedWord(id);
+
+      res.writeHead(200, { 'Content-Type': MIME_TYPES['.json'] });
+      res.end(JSON.stringify({ success: true, deletedId: id }));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': MIME_TYPES['.json'] });
+      res.end(JSON.stringify({ success: false, error: err.message }));
+    }
+    return;
+  }
+
   // --- STATIC FILE SERVING ---
   let filePath = path.join(PUBLIC_DIR, pathname === '/' ? 'index.html' : pathname);
   const ext = path.extname(filePath).toLowerCase();

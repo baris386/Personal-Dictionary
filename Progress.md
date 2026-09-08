@@ -118,3 +118,20 @@
 > No extra notes provided.
 
 ---
+
+<!-- Processed at 2026-09-08T11:16:00.000Z -->
+### Feature Update: Vocabulary Scratchpad & Saved for Later
+
+- **Section:** Saved for Later (`#saved-tab`)
+- **Capabilities:**
+  - Fast Single Quick Capture for unfamiliar words/phrases + context notes.
+  - Batch Multi-Word Paste import.
+  - Skeuomorphic yellow memo sticky-cards with brass pins.
+  - Live navbar counter badge.
+  - One-click "⚡ Inscribe to Lexicon" workflow to seamlessly transfer words into the full dictionary entry form.
+  - Automatic removal from scratchpad backlog upon dictionary seal.
+- **Database / Backend:**
+  - Table `saved_words` added to Turso LibSQL & SQLite schema.
+  - REST endpoints: `GET /api/saved-words`, `POST /api/saved-words`, `DELETE /api/saved-words/:id`.
+  - JSON local fallback support in `data_store.json`.
+

@@ -14,6 +14,13 @@ CREATE TABLE IF NOT EXISTS entries (
     created_at TEXT DEFAULT (datetime('now'))
 );
 
+CREATE TABLE IF NOT EXISTS saved_words (
+    id TEXT PRIMARY KEY,
+    word TEXT NOT NULL,
+    notes TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+);
+
 -- Seed Sample Data (Optional)
 INSERT OR IGNORE INTO entries (id, word, pos, az_meaning, definition, tone_context, synonyms, antonyms, notes)
 VALUES 
@@ -39,3 +46,4 @@ VALUES
     '["calm", "peaceful"]',
     'Stronger intensity than angry.'
 );
+

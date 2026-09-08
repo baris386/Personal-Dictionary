@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentFlashcardIndex = 0;
   let flashcardEntries = [];
 
+  // Saved Words (Scratchpad) State
+  let savedWordsList = [];
+  let savedSearchQuery = '';
+
   // Helper: Capitalize first letter of a string (e.g., "compulsory" -> "Compulsory")
   function capitalizeFirstLetter(str) {
     if (!str) return '';
@@ -55,6 +59,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewGridBtn = document.getElementById('view-grid-btn');
   const viewListBtn = document.getElementById('view-list-btn');
   const toast = document.getElementById('toast');
+
+  // Saved Words (Scratchpad) Elements
+  const savedWordsCountBadge = document.getElementById('saved-words-count-badge');
+  const quickSaveForm = document.getElementById('quick-save-form');
+  const quickWordInput = document.getElementById('quick-word-input');
+  const quickNotesInput = document.getElementById('quick-notes-input');
+  const batchSaveForm = document.getElementById('batch-save-form');
+  const batchWordsInput = document.getElementById('batch-words-input');
+  const batchCancelBtn = document.getElementById('batch-cancel-btn');
+  const modeSingleBtn = document.getElementById('mode-single-btn');
+  const modeBatchBtn = document.getElementById('mode-batch-btn');
+  const savedWordsStatus = document.getElementById('saved-words-status');
+  const savedSearchInput = document.getElementById('saved-search-input');
+  const clearSavedSearchBtn = document.getElementById('clear-saved-search');
+  const savedWordsGrid = document.getElementById('saved-words-grid');
+  const inscribeOriginBanner = document.getElementById('inscribe-origin-banner');
+  const inscribeOriginWord = document.getElementById('inscribe-origin-word');
+  const inscribeOriginId = document.getElementById('inscribe-origin-id');
+  const inscribeOriginDismissBtn = document.getElementById('inscribe-origin-dismiss-btn');
+  const addTabNavBtn = document.getElementById('add-tab-nav-btn');
 
   // Word of the Day Elements
   const wotdWidget = document.getElementById('wotd-widget');
@@ -147,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById(targetTab).classList.add('active');
 
       if (targetTab === 'search-tab') loadEntries();
+      if (targetTab === 'saved-tab') loadSavedWords();
       if (targetTab === 'add-tab') fetchDatabaseWordsForAutocomplete();
     });
   });
@@ -986,6 +1011,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       showToast(`Inscribed "${formattedWord}"!`);
 
+      // If inscribed from saved backlog, delete from saved words automatically
+      if (inscribeOriginId && inscribeOriginId.value) {
+        try {
+          await fetch(`/api/saved-words/${inscribeOriginId.value}`, { method: 'DELETE' });
+          inscribeOriginId.value = '';
+          inscribeOriginBanner.classList.add('hidden');
+          loadSavedWords();
+        } catch (e) {
+          console.warn('Failed to auto-remove from saved words:', e);
+        }
+      }
+
       // Reset form
       addEntryForm.reset();
       synonymsList = [];
@@ -1002,6 +1039,305 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // =========================================================================
+  // 📌 8. VOCABULARY SCRATCHPAD & SAVED FOR LATER LOGIC
+  // =========================================================================
+
+  // Mode switcher (Single Quick Add vs Batch Multi-Word Import)
+  if (modeSingleBtn && modeBatchBtn) {
+    modeSingleBtn.addEventListener('click', () => {
+      modeSingleBtn.classList.add('active');
+      modeBatchBtn.classList.remove('active');
+      quickSaveForm.classList.remove('hidden');
+      batchSaveForm.classList.add('hidden');
+      quickWordInput.focus();
+    });
+
+    modeBatchBtn.addEventListener('click', () => {
+      modeBatchBtn.classList.add('active');
+      modeSingleBtn.classList.remove('active');
+      batchSaveForm.classList.remove('hidden');
+      quickSaveForm.classList.add('hidden');
+      batchWordsInput.focus();
+    });
+
+    batchCancelBtn.addEventListener('click', () => {
+      modeSingleBtn.click();
+    });
+  }
+
+  // Dismiss Inscription origin link banner
+  if (inscribeOriginDismissBtn) {
+    inscribeOriginDismissBtn.addEventListener('click', () => {
+      inscribeOriginId.value = '';
+      inscribeOriginBanner.classList.add('hidden');
+    });
+  }
+
+  // Load saved words from API
+  async function loadSavedWords() {
+    try {
+      if (savedWordsStatus) savedWordsStatus.textContent = 'Consulting saved backlog...';
+      const res = await fetch('/api/saved-words');
+      const data = await res.json();
+      if (data.success) {
+        savedWordsList = data.savedWords || [];
+      } else {
+        savedWordsList = [];
+      }
+    } catch (err) {
+      console.error('Failed to load saved words:', err);
+      savedWordsList = [];
+    }
+
+    // Update nav counter badge
+    if (savedWordsCountBadge) {
+      savedWordsCountBadge.textContent = savedWordsList.length;
+      savedWordsCountBadge.style.display = savedWordsList.length > 0 ? 'inline-flex' : 'none';
+    }
+
+    renderSavedWords();
+  }
+
+  // Render Saved Words Grid
+  function renderSavedWords() {
+    if (!savedWordsGrid) return;
+
+    let filtered = [...savedWordsList];
+    if (savedSearchQuery) {
+      const q = savedSearchQuery.toLowerCase();
+      filtered = filtered.filter(w => 
+        (w.word || '').toLowerCase().includes(q) || 
+        (w.notes || '').toLowerCase().includes(q)
+      );
+    }
+
+    if (savedWordsStatus) {
+      savedWordsStatus.textContent = `Pending Backlog: ${filtered.length} ${filtered.length === 1 ? 'word' : 'words'} waiting`;
+    }
+
+    if (filtered.length === 0) {
+      if (savedSearchQuery) {
+        savedWordsGrid.innerHTML = `
+          <div class="empty-state parchment-card" style="grid-column: 1 / -1;">
+            <h3>No Saved Words Match "${escapeHtml(savedSearchQuery)}"</h3>
+            <p>Try clearing your filter to view all saved items.</p>
+          </div>
+        `;
+      } else {
+        savedWordsGrid.innerHTML = `
+          <div class="empty-state parchment-card" style="grid-column: 1 / -1;">
+            <h3>Your Word Scratchpad is Empty</h3>
+            <p>Jot down new words or idioms you encounter while reading, watching sitcoms, or listening to podcasts so you can research and inscribe them later!</p>
+          </div>
+        `;
+      }
+      return;
+    }
+
+    savedWordsGrid.innerHTML = filtered.map(item => {
+      const formattedWord = capitalizeFirstLetter(item.word);
+      const notesHtml = item.notes 
+        ? `<div class="saved-card-notes">📝 ${escapeHtml(item.notes)}</div>` 
+        : '<div class="saved-card-notes" style="opacity:0.5;font-style:italic;">No context notes recorded</div>';
+
+      const dateStr = item.createdAt 
+        ? new Date(item.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+        : 'Recently';
+
+      return `
+        <div class="saved-word-card" data-id="${escapeHtml(item.id)}">
+          <div class="saved-card-pin"></div>
+          
+          <div>
+            <div class="saved-card-header">
+              <div class="saved-card-word-line">
+                <h3 class="saved-card-word">${escapeHtml(formattedWord)}</h3>
+                <button class="skeuo-audio-btn play-audio-btn" data-word="${escapeHtml(formattedWord)}" title="Listen to pronunciation">🔊</button>
+              </div>
+              <span class="saved-card-badge">📌 Draft</span>
+            </div>
+
+            ${notesHtml}
+
+            <div class="saved-card-meta">
+              <span>📅 Saved: ${escapeHtml(dateStr)}</span>
+            </div>
+          </div>
+
+          <div class="saved-card-actions">
+            <button class="saved-inscribe-btn" data-id="${escapeHtml(item.id)}" title="Open Inscription Form with this word">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Inscribe to Lexicon</span>
+            </button>
+            <button class="saved-del-btn" data-id="${escapeHtml(item.id)}" title="Delete from saved words">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Attach Event Listeners to Saved Cards
+    savedWordsGrid.querySelectorAll('.play-audio-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        speakWord(btn.dataset.word);
+      });
+    });
+
+    savedWordsGrid.querySelectorAll('.saved-inscribe-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.id;
+        inscribeSavedWord(id);
+      });
+    });
+
+    savedWordsGrid.querySelectorAll('.saved-del-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.id;
+        const item = savedWordsList.find(w => w.id === id);
+        const name = item ? capitalizeFirstLetter(item.word) : 'this word';
+        if (confirm(`Remove "${name}" from your saved words backlog?`)) {
+          await deleteSavedWord(id);
+        }
+      });
+    });
+  }
+
+  // Inscribe a saved word into full dictionary entry
+  function inscribeSavedWord(id) {
+    const item = savedWordsList.find(w => w.id === id);
+    if (!item) return;
+
+    const formattedWord = capitalizeFirstLetter(item.word);
+    
+    // Switch to Add Tab
+    addTabNavBtn.click();
+
+    // Populate Add Entry Form
+    wordInput.value = formattedWord;
+    notesInput.value = item.notes || '';
+    
+    // Set origin banner info
+    inscribeOriginId.value = item.id;
+    inscribeOriginWord.textContent = formattedWord;
+    inscribeOriginBanner.classList.remove('hidden');
+
+    // Scroll to top of form and focus translation input
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      azMeaningInput.focus();
+    }, 150);
+
+    showToast(`Ready to inscribe "${formattedWord}"! Fill translation & save.`);
+  }
+
+  // Delete a saved word
+  async function deleteSavedWord(id) {
+    try {
+      const res = await fetch(`/api/saved-words/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        showToast('Word removed from scratchpad.');
+        await loadSavedWords();
+      }
+    } catch (err) {
+      alert(`Failed to delete saved word: ${err.message}`);
+    }
+  }
+
+  // Quick Save Single Word Form Submit
+  if (quickSaveForm) {
+    quickSaveForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const rawWord = quickWordInput.value.trim();
+      const rawNotes = quickNotesInput.value.trim();
+
+      if (!rawWord) return;
+
+      try {
+        const res = await fetch('/api/saved-words', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            word: rawWord,
+            notes: rawNotes
+          })
+        });
+
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error);
+
+        showToast(`Saved "${capitalizeFirstLetter(rawWord)}" to scratchpad!`);
+        quickWordInput.value = '';
+        quickNotesInput.value = '';
+        quickWordInput.focus();
+
+        await loadSavedWords();
+      } catch (err) {
+        alert(`Error saving word: ${err.message}`);
+      }
+    });
+  }
+
+  // Batch Multi-Word Form Submit
+  if (batchSaveForm) {
+    batchSaveForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = batchWordsInput.value.trim();
+      if (!text) return;
+
+      // Parse lines and commas
+      const rawTokens = text.split(/[\n,]+/);
+      const words = rawTokens
+        .map(t => t.trim())
+        .filter(t => t.length > 0);
+
+      if (words.length === 0) {
+        alert('Please enter at least one word.');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/saved-words', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ words })
+        });
+
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error);
+
+        showToast(`Saved ${data.count || words.length} words to scratchpad!`);
+        batchWordsInput.value = '';
+        modeSingleBtn.click();
+        await loadSavedWords();
+      } catch (err) {
+        alert(`Error saving batch words: ${err.message}`);
+      }
+    });
+  }
+
+  // Saved Search Filter
+  if (savedSearchInput) {
+    savedSearchInput.addEventListener('input', (e) => {
+      savedSearchQuery = e.target.value.trim();
+      if (savedSearchQuery) clearSavedSearchBtn.classList.remove('hidden');
+      else clearSavedSearchBtn.classList.add('hidden');
+      renderSavedWords();
+    });
+
+    clearSavedSearchBtn.addEventListener('click', () => {
+      savedSearchInput.value = '';
+      savedSearchQuery = '';
+      clearSavedSearchBtn.classList.add('hidden');
+      renderSavedWords();
+    });
+  }
+
   // Helper
   function escapeHtml(str) {
     if (!str) return '';
@@ -1017,5 +1353,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAlphabetTabs();
   setViewMode(currentViewMode);
   loadEntries();
+  loadSavedWords();
   fetchDatabaseWordsForAutocomplete();
 });
+
